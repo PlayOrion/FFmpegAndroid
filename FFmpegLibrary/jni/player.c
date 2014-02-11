@@ -2668,7 +2668,7 @@ void jni_player_dealloc(JNIEnv *env, jobject thiz) {
 }
 
 int jni_player_init(JNIEnv *env, jobject thiz) {
-
+__android_log_write(ANDROID_LOG_INFO, "Tag", "jni_player_init");
 #ifdef PROFILER
 #warning "Profiler enabled"
 	setenv("CPUPROFILE_FREQUENCY", "1000", 1);

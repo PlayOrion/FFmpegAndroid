@@ -30,9 +30,14 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		MatrixCursor cursor = new MatrixCursor(MainAdapter.PROJECTION);
 		cursor.addRow(new Object[] {
 				1,
-				"Kings Of Leon-Charmer unencrypted",
-				"http://vod.dvdpost.be/52a97d7686c568.55413551_eng_fre.m3u8",
+				"52f8d9b9782967.69577076_eng_dut.m3u8",
+				"http://vod.dvdpost.be/52f8d9b9782967.69577076_eng_dut.m3u8",
 				null });
+        cursor.addRow(new Object[] {
+                2,
+                "52a97d7686c568.55413551_eng_fre.m3u8",
+                "http://vod.dvdpost.be/52a97d7686c568.55413551_eng_fre.m3u8",
+                null });
 
 		mAdapter = new MainAdapter(this);
 		mAdapter.swapCursor(cursor);
