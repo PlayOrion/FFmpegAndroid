@@ -348,59 +348,59 @@ function build_one {
 }
 
 #arm v5
-#EABIARCH=arm-linux-androideabi
-#ARCH=arm
-#CPU=armv5
-#OPTIMIZE_CFLAGS="-marm -march=$CPU"
-#PREFIX=../ffmpeg-build/armeabi
-#OUT_LIBRARY=$PREFIX/libffmpeg.so
-#ADDITIONAL_CONFIGURE_FLAG=
-#SONAME=libffmpeg.so
-#PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.6/prebuilt/$OS-x86_64
-#PLATFORM_VERSION=android-19
-#build_amr
-#build_aac
-#build_fribidi
-#build_freetype2
-#build_ass
-#build_ffmpeg
-#build_one
+EABIARCH=arm-linux-androideabi
+ARCH=arm
+CPU=armv5
+OPTIMIZE_CFLAGS="-marm -march=$CPU"
+PREFIX=../ffmpeg-build/armeabi
+OUT_LIBRARY=$PREFIX/libffmpeg.so
+ADDITIONAL_CONFIGURE_FLAG=
+SONAME=libffmpeg.so
+PREBUILT=$NDK/toolchains/arm-linux-androideabi-4.6/prebuilt/$OS-x86_64
+PLATFORM_VERSION=android-19
+build_amr
+build_aac
+build_fribidi
+build_freetype2
+build_ass
+build_ffmpeg
+build_one
 
 #x86
-#EABIARCH=i686-linux-android
-#ARCH=x86
-#OPTIMIZE_CFLAGS="-m32"
-#PREFIX=../ffmpeg-build/x86
-#OUT_LIBRARY=$PREFIX/libffmpeg.so
-#ADDITIONAL_CONFIGURE_FLAG=--disable-asm
-#SONAME=libffmpeg.so
-#PREBUILT=$NDK/toolchains/x86-4.6/prebuilt/$OS-x86_64
-#PLATFORM_VERSION=android-19
-#build_amr
-#build_aac
-#build_fribidi
-#build_freetype2
-#build_ass
-#build_ffmpeg
-#build_one
+EABIARCH=i686-linux-android
+ARCH=x86
+OPTIMIZE_CFLAGS="-m32"
+PREFIX=../ffmpeg-build/x86
+OUT_LIBRARY=$PREFIX/libffmpeg.so
+ADDITIONAL_CONFIGURE_FLAG=--disable-asm
+SONAME=libffmpeg.so
+PREBUILT=$NDK/toolchains/x86-4.6/prebuilt/$OS-x86_64
+PLATFORM_VERSION=android-19
+build_amr
+build_aac
+build_fribidi
+build_freetype2
+build_ass
+build_ffmpeg
+build_one
 
 #mips
-#EABIARCH=mipsel-linux-android
-#ARCH=mips
-#OPTIMIZE_CFLAGS="-EL -march=mips32 -mips32 -mhard-float"
-#PREFIX=../ffmpeg-build/mips
-#OUT_LIBRARY=$PREFIX/libffmpeg.so
-#ADDITIONAL_CONFIGURE_FLAG="--disable-mips32r2"
-#SONAME=libffmpeg.so
-#PREBUILT=$NDK/toolchains/mipsel-linux-android-4.6/prebuilt/$OS-x86_64
-#PLATFORM_VERSION=android-19
-#build_amr
-#build_aac
-#build_fribidi
-#build_freetype2
-#build_ass
-#build_ffmpeg
-#build_one
+EABIARCH=mipsel-linux-android
+ARCH=mips
+OPTIMIZE_CFLAGS="-EL -march=mips32 -mips32 -mhard-float"
+PREFIX=../ffmpeg-build/mips
+OUT_LIBRARY=$PREFIX/libffmpeg.so
+ADDITIONAL_CONFIGURE_FLAG="--disable-mips32r2"
+SONAME=libffmpeg.so
+PREBUILT=$NDK/toolchains/mipsel-linux-android-4.6/prebuilt/$OS-x86_64
+PLATFORM_VERSION=android-19
+build_amr
+build_aac
+build_fribidi
+build_freetype2
+build_ass
+build_ffmpeg
+build_one
 
 #arm v7vfpv3
 EABIARCH=arm-linux-androideabi

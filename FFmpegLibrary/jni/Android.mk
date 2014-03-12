@@ -57,9 +57,9 @@ include $(PREBUILT_SHARED_LIBRARY)
 ifdef FEATURE_NEON
 include $(CLEAR_VARS)
 LOCAL_MODULE := ffmpeg-prebuilt-neon
-LOCAL_SRC_FILES := ffmpeg-build/$(TARGET_ARCH_ABI)/libffmpeg-neon.so
+LOCAL_SRC_FILES := ffmpeg-build/$(TARGET_ARCH_ABI)-neon/libffmpeg-neon.so
 LOCAL_EXPORT_C_INCLUDES := ffmpeg-build/$(TARGET_ARCH_ABI)-neon/include
-LOCAL_EXPORT_LDLIBS := ffmpeg-build/$(TARGET_ARCH_ABI)/libffmpeg-neon.so
+LOCAL_EXPORT_LDLIBS := ffmpeg-build/$(TARGET_ARCH_ABI)-neon/libffmpeg-neon.so
 LOCAL_PRELINK_MODULE := true
 include $(PREBUILT_SHARED_LIBRARY)
 endif
@@ -128,7 +128,8 @@ LOCAL_REQUIRED_MODULES += tropicssl
 endif
 
 LOCAL_LDLIBS    += -landroid
-LOCAL_LDLIBS += -llog -ljnigraphics -lz -lm -g $(LOCAL_PATH)/ffmpeg-build/$(TARGET_ARCH_ABI)/libffmpeg-neon.so
+#LOCAL_LDLIBS += -fuse-ld=gold
+LOCAL_LDLIBS += -llog -ljnigraphics -lz -lm -g $(LOCAL_PATH)/ffmpeg-build/$(TARGET_ARCH_ABI)-neon/libffmpeg-neon.so
 include $(BUILD_SHARED_LIBRARY)
 endif
 
