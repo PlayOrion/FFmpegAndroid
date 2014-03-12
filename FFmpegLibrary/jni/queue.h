@@ -26,7 +26,8 @@ typedef struct _Queue Queue;
 typedef void * (*queue_fill_func)(void * obj);
 typedef void (*queue_free_func)(void * obj, void *elem);
 
-typedef enum {
+typedef enum
+{
 	QUEUE_CHECK_FUNC_RET_WAIT = -1,
 	QUEUE_CHECK_FUNC_RET_TEST = 0,
 	QUEUE_CHECK_FUNC_RET_SKIP = 1

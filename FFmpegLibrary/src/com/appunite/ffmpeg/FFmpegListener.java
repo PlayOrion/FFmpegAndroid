@@ -18,17 +18,18 @@
 
 package com.appunite.ffmpeg;
 
-public interface FFmpegListener {
-	void onFFDataSourceLoaded(FFmpegError err, FFmpegStreamInfo[] streams);
+public interface FFmpegListener
+{
+    void onFFDataSourceLoaded(FFmpegError err, FFmpegStreamInfo[] streams);
 
-	void onFFResume(NotPlayingException result);
+    void onFFResume(NotPlayingException result);
 
-	void onFFPause(NotPlayingException err);
+    void onFFPause(NotPlayingException err);
 
-	void onFFStop();
+    void onFFStop();
 
-	void onFFUpdateTime(long mCurrentTimeUs, long mVideoDurationUs, boolean isFinished);
+    void onFFUpdateTime(long mCurrentTimeUs, long mVideoDurationUs, boolean isFinished);
 
-	void onFFSeeked(NotPlayingException result);
+    void onFFSeeked(NotPlayingException result);
 
 }

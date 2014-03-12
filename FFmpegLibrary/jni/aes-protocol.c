@@ -44,7 +44,8 @@
 #define AES_KEY_SIZE        16
 #define BUFFER_SIZE			512
 
-typedef struct {
+typedef struct
+{
 	const AVClass *class;
 	URLContext *hd;
 	uint8_t *key;
@@ -60,12 +61,15 @@ typedef struct {
 
 #define OFFSET(x) offsetof(AesContext, x)
 
-static const AVOption options[] = { { "aeskey", "AES decryption key",
-		OFFSET(key), AV_OPT_TYPE_STRING, .flags = AV_OPT_FLAG_DECODING_PARAM },
-		{ NULL } };
+static const AVOption options[] =
+{
+{ "aeskey", "AES decryption key", OFFSET(key), AV_OPT_TYPE_STRING, .flags =
+		AV_OPT_FLAG_DECODING_PARAM },
+{ NULL } };
 
-static const AVClass aes_class = { .class_name = "aes", .item_name =
-		av_default_item_name, .option = options, .version =
+static const AVClass aes_class =
+{ .class_name = "aes", .item_name = av_default_item_name, .option = options,
+		.version =
 		LIBAVUTIL_VERSION_INT, };
 
 #define MAX_PRINT_LEN 2048
@@ -74,54 +78,62 @@ static const AVClass aes_class = { .class_name = "aes", .item_name =
 static char print_buff[MAX_PRINT_LEN * 2 + 1];
 #endif
 
-static void log_hex(char *log, char *data, int len) {
+static void log_hex(char *log, char *data, int len)
+{
 #if LOG_LEVEL >= 10
 	int i;
-	if (len > MAX_PRINT_LEN) {
+	if (len > MAX_PRINT_LEN)
+	{
 		LOGI(1,
 				"log_hex: oversized log requested: %d, max size: %d", len, MAX_PRINT_LEN);
 		len = MAX_PRINT_LEN;
 	}
 	for (i = 0; i < len; ++i)
-		sprintf(&print_buff[i * 2], "%02X", (unsigned char) data[i]);
+	sprintf(&print_buff[i * 2], "%02X", (unsigned char) data[i]);
 	LOGI(10, log, len, print_buff);
 #endif
 }
 
-static int aes_open(URLContext *h, const char *uri, int flags) {
+static int aes_open(URLContext *h, const char *uri, int flags)
+{
 	const char *nested_url;
 	int ret = 0;
 	AesContext *c = h->priv_data;
 	LOGI(3, "aes_open: opening data");
 
 	if (!av_strstart(uri, "aes+", &nested_url)
-			&& !av_strstart(uri, "aes:", &nested_url)) {
+			&& !av_strstart(uri, "aes:", &nested_url))
+	{
 		av_log(h, AV_LOG_ERROR, "Unsupported url %s", uri);
 		LOGE(1, "Unsupported url %s", uri);
 		ret = AVERROR(EINVAL);
 		goto err;
 	}
 
-	if (c->key == NULL) {
+	if (c->key == NULL)
+	{
 		av_log(h, AV_LOG_ERROR, "Key is not set\n");
 		LOGE(1, "Key is not set");
 		ret = AVERROR(EINVAL);
 		goto err;
 	}
-	if (strlen(c->key) != BASE64_KEY_SIZE) {
+	if (strlen(c->key) != BASE64_KEY_SIZE)
+	{
 		av_log(h, AV_LOG_ERROR, "Wrong size of key\n");
 		LOGE(1, "Wrong size of key");
 		ret = AVERROR(EINVAL);
 		goto err;
 	}
-	if (flags & AVIO_FLAG_WRITE) {
+	if (flags & AVIO_FLAG_WRITE)
+	{
 		av_log(h, AV_LOG_ERROR, "Only decryption is supported currently\n");
 		LOGE(1, "Only decryption is supported currently");
 		ret = AVERROR(ENOSYS);
 		goto err;
 	}
 	if ((ret = ffurl_open(&c->hd, nested_url, AVIO_FLAG_READ,
-			&h->interrupt_callback, NULL)) < 0) {
+			&h->interrupt_callback, NULL)) < 0)
+	{
 		av_log(h, AV_LOG_ERROR, "Unable to open input\n");
 		LOGE(1, "Unable to open input");
 		goto err;
@@ -156,49 +168,61 @@ static int aes_open(URLContext *h, const char *uri, int flags) {
 	err: return ret;
 }
 
-static int64_t aes_seek(URLContext *h, int64_t pos, int whence) {
+static int64_t aes_seek(URLContext *h, int64_t pos, int whence)
+{
 	AesContext *c = h->priv_data;
 	LOGI(3, "aes_seek: trying to seek");
-	switch (whence) {
+	switch (whence)
+	{
 	case SEEK_SET:
-		LOGI(3, "aes_seek: pos: %"PRId64", SEEK_SET", pos);
+		LOGI(3, "aes_seek: pos: %"PRId64", SEEK_SET", pos)
+		;
 		// The offset is set to offset bytes.
 		c->reading_position = pos;
 		break;
 
 	case SEEK_CUR:
-		LOGI(3, "aes_seek: pos: %"PRId64", SEEK_CUR", pos);
+		LOGI(3, "aes_seek: pos: %"PRId64", SEEK_CUR", pos)
+		;
 		// The offset is set to its current location plus offset bytes.
 		c->reading_position += pos;
 		break;
 
 	case AVSEEK_SIZE:
 		// Measuring file size
-		LOGI(3, "aes_seek: AVSEEK_SIZE");
-		if (c->stream_end >= 0) {
+		LOGI(3, "aes_seek: AVSEEK_SIZE")
+		;
+		if (c->stream_end >= 0)
+		{
 			LOGI(3, "aes_seek: already_measured_size: %"PRId64, c->stream_end);
 			return c->stream_end;
 		}
 		c->stream_end = ffurl_seek(c->hd, 0, AVSEEK_SIZE);
-		LOGI(3, "aes_seek: measured_size: %"PRId64, c->stream_end);
+		LOGI(3, "aes_seek: measured_size: %"PRId64, c->stream_end)
+		;
 		return c->stream_end;
 
 	case SEEK_END:
-		LOGI(3, "aes_seek: pos: %d, SEEK_END", pos);
+		LOGI(3, "aes_seek: pos: %d, SEEK_END", pos)
+		;
 		// The offset is set to the size of the file plus offset bytes.
-		if (c->stream_end < 0) {
+		if (c->stream_end < 0)
+		{
 			c->stream_end = ffurl_seek(c->hd, 0, AVSEEK_SIZE);
-			if (c->stream_end < 0) {
-				LOGE(2,
-						"aes_seek: could not measure size, error: %"PRId64, c->stream_end);
+			if (c->stream_end < 0)
+			{
+				LOGE(2, "aes_seek: could not measure size, error: %"PRId64,
+						c->stream_end);
 				return c->stream_end;
 			}
 		}
-		LOGI(3, "aes_seek: measured_size: %"PRId64, c->stream_end);
+		LOGI(3, "aes_seek: measured_size: %"PRId64, c->stream_end)
+		;
 		c->reading_position = c->stream_end - pos;
 		break;
 	default:
-		LOGE(1, "aes_seek: unknown whence: %d", whence);
+		LOGE(1, "aes_seek: unknown whence: %d", whence)
+		;
 		return -1;
 	}
 	LOGI(3, "aes_seek: reading_position: %" PRId64, c->reading_position);
@@ -210,19 +234,23 @@ static int64_t aes_seek(URLContext *h, int64_t pos, int whence) {
 
 	int64_t ret = ffurl_seek(c->hd, c->read_start_point, whence);
 	LOGI(3, "aes_seek: return: %"PRId64, ret);
-	if (ret < 0) {
+	if (ret < 0)
+	{
 		LOGE(1,
-				"aes_seek: seeking error: %"PRId64", trying to seek: %"PRId64", whence: %d", ret, c->read_start_point, whence);
+				"aes_seek: seeking error: %"PRId64", trying to seek: %"PRId64", whence: %d",
+				ret, c->read_start_point, whence);
 		return ret;
 	}
-	if (ret != c->read_start_point) {
+	if (ret != c->read_start_point)
+	{
 		LOGE(1, "aes_seek: seeking fatal error: unknown state");
 		return -2;
 	}
 	return c->reading_position;
 }
 
-static int aes_read(URLContext *h, uint8_t *buf, int size) {
+static int aes_read(URLContext *h, uint8_t *buf, int size)
+{
 	AesContext *c = h->priv_data;
 
 	int buf_position = 0;
@@ -230,22 +258,26 @@ static int aes_read(URLContext *h, uint8_t *buf, int size) {
 	int end = FALSE;
 	LOGI(3, "aes_read started");
 
-	while (buf_left > 0 && !end) {
-		LOGI(3,
-				"aes_read loop, read_position: %"PRId64", buf_left: %d", c->reading_position, buf_left);
-		if (c->reading_position < c->read_start_point) {
+	while (buf_left > 0 && !end)
+	{
+		LOGI(3, "aes_read loop, read_position: %"PRId64", buf_left: %d",
+				c->reading_position, buf_left);
+		if (c->reading_position < c->read_start_point)
+		{
 			LOGE(1, "aes_read reading error");
 			return -1;
 		}
 
-		while (c->reading_position >= c->read_end_point && !end) {
-			LOGI(3,
-					"aes_read read loop: current read_end_point %"PRId64, c->read_end_point);
+		while (c->reading_position >= c->read_end_point && !end)
+		{
+			LOGI(3, "aes_read read loop: current read_end_point %"PRId64,
+					c->read_end_point);
 			int64_t position = c->read_end_point;
 
 			int decode_buf_left = BUFFER_SIZE;
 			int encrypted_buffer_size = 0;
-			while (decode_buf_left > 0 && !end) {
+			while (decode_buf_left > 0 && !end)
+			{
 				int n = ffurl_read(c->hd,
 						&(c->read_buff[encrypted_buffer_size]),
 						decode_buf_left);
@@ -290,18 +322,21 @@ static int aes_read(URLContext *h, uint8_t *buf, int size) {
 	return buf_position;
 }
 
-static int aes_close(URLContext *h) {
+static int aes_close(URLContext *h)
+{
 	AesContext *c = h->priv_data;
 	if (c->hd)
 		ffurl_close(c->hd);
 	return 0;
 }
 
-URLProtocol aes_protocol = { .name = "aes", .url_open = aes_open, .url_read =
-		aes_read, .url_close = aes_close, .url_seek = aes_seek,
-		.priv_data_size = sizeof(AesContext), .priv_data_class = &aes_class,
-		.flags = URL_PROTOCOL_FLAG_NESTED_SCHEME, };
+URLProtocol aes_protocol =
+		{ .name = "aes", .url_open = aes_open, .url_read = aes_read,
+				.url_close = aes_close, .url_seek = aes_seek, .priv_data_size =
+						sizeof(AesContext), .priv_data_class = &aes_class,
+				.flags = URL_PROTOCOL_FLAG_NESTED_SCHEME, };
 
-void register_aes_protocol() {
+void register_aes_protocol()
+{
 	ffurl_register_protocol(&aes_protocol, sizeof(aes_protocol));
 }

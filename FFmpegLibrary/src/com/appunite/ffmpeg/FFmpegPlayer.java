@@ -62,10 +62,8 @@ public class FFmpegPlayer
         FFmpegStreamInfo[] streams;
     }
 
-    private static class SetDataSourceTask extends
-            AsyncTask<Object, Void, SetDataSourceTaskResult>
+    private static class SetDataSourceTask extends AsyncTask<Object, Void, SetDataSourceTaskResult>
     {
-
         private final FFmpegPlayer player;
 
         public SetDataSourceTask(FFmpegPlayer player)
@@ -83,9 +81,9 @@ public class FFmpegPlayer
             Integer audioStream = (Integer) params[3];
             Integer subtitleStream = (Integer) params[4];
 
-            int videoStreamNo = videoStream == null ? -1 : videoStream.intValue();
-            int audioStreamNo = audioStream == null ? -1 : audioStream.intValue();
-            int subtitleStreamNo = subtitleStream == null ? -1 : subtitleStream.intValue();
+            int videoStreamNo = videoStream == null ? -1 : videoStream;
+            int audioStreamNo = audioStream == null ? -1 : audioStream;
+            int subtitleStreamNo = subtitleStream == null ? -1 : subtitleStream;
 
             int err = player.setDataSourceNative(url, map, videoStreamNo, audioStreamNo, subtitleStreamNo);
             SetDataSourceTaskResult result = new SetDataSourceTaskResult();
@@ -112,8 +110,7 @@ public class FFmpegPlayer
 
     }
 
-    private static class SeekTask extends
-            AsyncTask<Long, Void, NotPlayingException>
+    private static class SeekTask extends AsyncTask<Long, Void, NotPlayingException>
     {
 
         private final FFmpegPlayer player;
@@ -128,7 +125,7 @@ public class FFmpegPlayer
         {
             try
             {
-                player.seekNative(params[0].longValue());
+                player.seekNative(params[0]);
             }
             catch (NotPlayingException e)
             {
@@ -146,8 +143,7 @@ public class FFmpegPlayer
 
     }
 
-    private static class PauseTask extends
-            AsyncTask<Void, Void, NotPlayingException>
+    private static class PauseTask extends AsyncTask<Void, Void, NotPlayingException>
     {
 
         private final FFmpegPlayer player;
@@ -246,7 +242,6 @@ public class FFmpegPlayer
 
     private Runnable updateTimeRunnable = new Runnable()
     {
-
         @Override
         public void run()
         {
@@ -256,7 +251,6 @@ public class FFmpegPlayer
                         mVideoDurationUs, mIsFinished);
             }
         }
-
     };
 
     private long mCurrentTimeUs;
@@ -370,8 +364,7 @@ public class FFmpegPlayer
         activity.runOnUiThread(updateTimeRunnable);
     }
 
-    private AudioTrack prepareAudioTrack(int sampleRateInHz,
-                                         int numberOfChannels)
+    private AudioTrack prepareAudioTrack(int sampleRateInHz, int numberOfChannels)
     {
 
         for (; ; )
@@ -397,8 +390,7 @@ public class FFmpegPlayer
             }
             else if (numberOfChannels == 5)
             {
-                channelConfig = AudioFormat.CHANNEL_OUT_QUAD
-                        | AudioFormat.CHANNEL_OUT_LOW_FREQUENCY;
+                channelConfig = AudioFormat.CHANNEL_OUT_QUAD | AudioFormat.CHANNEL_OUT_LOW_FREQUENCY;
             }
             else if (numberOfChannels == 6)
             {
@@ -416,11 +408,10 @@ public class FFmpegPlayer
             {
                 int minBufferSize = AudioTrack.getMinBufferSize(sampleRateInHz,
                         channelConfig, AudioFormat.ENCODING_PCM_16BIT);
-                AudioTrack audioTrack = new AudioTrack(
+                return new AudioTrack(
                         AudioManager.STREAM_MUSIC, sampleRateInHz,
                         channelConfig, AudioFormat.ENCODING_PCM_16BIT,
                         minBufferSize, AudioTrack.MODE_STREAM);
-                return audioTrack;
             }
             catch (IllegalArgumentException e)
             {
@@ -454,8 +445,8 @@ public class FFmpegPlayer
                               int videoStream, int audioStream, int subtitlesStream)
     {
         new SetDataSourceTask(this).execute(url, dictionary,
-                Integer.valueOf(videoStream), Integer.valueOf(audioStream),
-                Integer.valueOf(subtitlesStream));
+                videoStream, audioStream,
+                subtitlesStream);
     }
 
     public FFmpegListener getMpegListener()

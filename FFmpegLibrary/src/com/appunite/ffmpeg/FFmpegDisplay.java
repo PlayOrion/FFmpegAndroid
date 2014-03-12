@@ -18,8 +18,7 @@
 
 package com.appunite.ffmpeg;
 
-public interface FFmpegDisplay {
-
-	void setMpegPlayer(FFmpegPlayer fFmpegPlayer);
-
+public interface FFmpegDisplay
+{
+    void setMpegPlayer(FFmpegPlayer fFmpegPlayer);
 }

@@ -51,23 +51,22 @@ public class FFmpegSurfaceView extends SurfaceView implements FFmpegDisplay,
     {
         super(context, attrs, defStyle);
 
-		SurfaceHolder holder = getHolder();
+        SurfaceHolder holder = getHolder();
         holder.setFormat(PixelFormat.RGBA_8888);
-		holder.addCallback(this);
+        holder.addCallback(this);
     }
 
-	@Override
-	public void setMpegPlayer(FFmpegPlayer fFmpegPlayer) {
-		if (mMpegPlayer != null)
-			throw new RuntimeException(
-					"setMpegPlayer could not be called twice");
+    @Override
+    public void setMpegPlayer(FFmpegPlayer fFmpegPlayer)
+    {
+        if (mMpegPlayer != null)
+            throw new RuntimeException("setMpegPlayer could not be called twice");
 
-		this.mMpegPlayer = fFmpegPlayer;
-	}
+        this.mMpegPlayer = fFmpegPlayer;
+    }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height)
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
 
     }

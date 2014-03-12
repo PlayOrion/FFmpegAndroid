@@ -19,12 +19,11 @@
 #ifndef SYNC_H_
 #define SYNC_H_
 
-enum WaitFuncRet {
-	WAIT_FUNC_RET_OK = 0,
-	WAIT_FUNC_RET_SKIP = 1,
+enum WaitFuncRet
+{
+	WAIT_FUNC_RET_OK = 0, WAIT_FUNC_RET_SKIP = 1,
 };
 
-typedef enum WaitFuncRet (WaitFunc) (void *data , int64_t time, int stream_no);
-
+typedef enum WaitFuncRet (WaitFunc)(void *data, int64_t time, int stream_no);
 
 #endif /* SYNC_H_ */

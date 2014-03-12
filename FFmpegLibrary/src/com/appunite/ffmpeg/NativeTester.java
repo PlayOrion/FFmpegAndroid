@@ -18,10 +18,12 @@
 
 package com.appunite.ffmpeg;
 
-class NativeTester {
-	static {
-		System.loadLibrary("nativetester-jni");
-	}
-	
-	native boolean isNeon();
+class NativeTester
+{
+    static
+    {
+        System.loadLibrary("nativetester-jni");
+    }
+
+    native boolean isNeon();
 }

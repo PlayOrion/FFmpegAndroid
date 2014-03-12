@@ -55,9 +55,10 @@
 #define AA(c)  ((0xFF-c) &0xFF)
 
 void blend_ass_image(AVPicture *dest, const ASS_Image *image, int imgw,
-		int imgh, enum PixelFormat pixel_format) {
-	uint8_t rgba_color[] = { AR(image->color), AG(image->color), AB(
-			image->color), AA(image->color) };
+		int imgh, enum PixelFormat pixel_format)
+{
+	uint8_t rgba_color[] =
+	{ AR(image->color), AG(image->color), AB(image->color), AA(image->color) };
 	uint8_t rect_r, rect_g, rect_b, rect_a;
 	int dest_r, dest_g, dest_b, dest_a;
 	int x, y;
@@ -70,10 +71,12 @@ void blend_ass_image(AVPicture *dest, const ASS_Image *image, int imgw,
 
 	dst += image->dst_y * dest->linesize[0] + image->dst_x * 4;
 	src = image->bitmap;
-	for (y = 0; y < image->h; y++) {
+	for (y = 0; y < image->h; y++)
+	{
 		dst2 = (uint32_t *) dst;
 		src2 = src;
-		for (x = 0; x < image->w; x++) {
+		for (x = 0; x < image->w; x++)
+		{
 			uint8_t image_pixel = *(src2++);
 			uint32_t *pixel = (dst2++);
 
@@ -97,7 +100,8 @@ void blend_ass_image(AVPicture *dest, const ASS_Image *image, int imgw,
 }
 
 void blend_subrect_rgba(AVPicture *dest, const AVSubtitleRect *rect, int imgw,
-		int imgh, enum PixelFormat pixel_format) {
+		int imgh, enum PixelFormat pixel_format)
+{
 	int rect_r, rect_g, rect_b, rect_a;
 	int dest_r, dest_g, dest_b, dest_a;
 	uint32_t *pal;
@@ -113,10 +117,12 @@ void blend_subrect_rgba(AVPicture *dest, const AVSubtitleRect *rect, int imgw,
 	src = rect->pict.data[0];
 	pal = (uint32_t *) rect->pict.data[1];
 
-	for (y = 0; y < rect->h; y++) {
+	for (y = 0; y < rect->h; y++)
+	{
 		dst2 = (uint32_t *) dst;
 		src2 = src;
-		for (x = 0; x < rect->w; x++) {
+		for (x = 0; x < rect->w; x++)
+		{
 			uint32_t *rect_pixel = &pal[*(src2++)];
 			uint32_t *pixel = (dst2++);
 
